@@ -28,10 +28,7 @@ public class Ability : ISlotResolver
         var 悖论激活 = Core.Resolve<JobApi_BlackMage>().IsParadoxActive;
         var 火苗 = Core.Me.HasAura(BLMBuff.火苗);
         if ( 天语状态 && !Helper.有三连即刻buff() && !火苗 && !悖论激活 && 通晓层数 < 1 && Core.Me.IsMoving() && (即刻.IsReady() || 三连.IsReady() || 火状态)
-            || 火状态 && MP <= 1200 && !Helper.有三连即刻buff() && 魔泉.IsReady() && ((!耀星.IsReady() && 即刻.IsReady()) || 三连.GetSpell().Charges >= 1)
-            || 火状态 && MP == 0 && !火苗 && 魔泉.IsReady()
-            || 详述可用 
-            || BLMBuff.冰层数 == 2 && MP <800)
+            || 火状态 && MP <= 1200 && !Helper.有三连即刻buff() && 魔泉.IsReady() && ((!耀星.IsReady() && 即刻.IsReady()) || 三连.GetSpell().Charges >= 1))
         {
             return 1;
         }
@@ -66,11 +63,6 @@ public class Ability : ISlotResolver
             {
                 return 三连.GetChangeSpell();
             }
-
-            if (火状态)
-            {
-                return 魔泉.GetChangeSpell();
-            }
         }
         
         if (火状态 && MP <= 1200 && !Helper.有三连即刻buff() && 魔泉.IsReady())
@@ -85,16 +77,6 @@ public class Ability : ISlotResolver
                 return 三连.GetChangeSpell();
             }
         }
-        if (火状态 && MP == 0 && !火苗)
-        {
-            if (魔泉.IsReady()) return 魔泉.GetChangeSpell();
-        }
-
-        if (详述可用)
-        {
-            if (详述.IsReady()) return 详述.GetChangeSpell();
-        }
-
         return null;
     }
 

@@ -35,9 +35,10 @@ public static class BLM_UI
     }
     public static void DrawQtGeneral(JobViewWindow jobViewWindow)
     {
-        ImGui.Text("当前版本v1.1.2");
+        ImGui.Text("当前版本v1.3");
         ImGui.Text("2024-10-16:修复卡GCD释放能力技问题");
         ImGui.Text("2024-10-16:开放90级支持");
         ImGui.Text("2024-10-19:修复倒数开场打两个冰3的问题，添加黑魔纹转好提醒");
+        ImGui.Text("2025-01-06:整体逻辑重构,添加hotkey,现在基本循环改为标改,添加AOE控制");
     }
 }

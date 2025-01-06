@@ -98,37 +98,15 @@ public class GCD : ISlotResolver
         {
             if (火状态)
             {
+                if (BLMBuff.火层数 == 1)
+                {
+                    if (火苗) return 火3.GetChangeSpell();
+                }
                 if (冰火时间 > 5000)
                 {
                     if (通晓溢出) return 异言.GetChangeSpell();
                 }
-
-                if (Helper.可以打雷())
-                {
-                    return BLMSkill.雷1.GetChangeSpell();
-                }
-
-                if (QT.QTGET("骗悖论"))
-                {
-                    //骗悖论
-                    if (MP == 1200 && 耀星.IsReady() && 火苗 && 魔泉.IsReady())
-                    {
-                        if (!Helper.有三连即刻buff() && 绝望.CanSpell())
-                        {
-                            return 绝望.GetChangeSpell();
-                        }
-
-                        if (Helper.有三连即刻buff())
-                        {
-                            return 绝望.GetChangeSpell();
-                        }
-
-                        if (!Helper.有三连即刻buff() && 三连.GetSpell().Charges == 2 && 通晓层数 >= 1)
-                        {
-                            return 异言.GetChangeSpell();
-                        }
-                    }
-                }
+                
 
                 if (MP == 1200 && !耀星.IsReady() && !火苗 && 魔泉.IsReady())
                 {
@@ -147,33 +125,18 @@ public class GCD : ISlotResolver
                 {
                     if (绝望.CanSpell()) return 绝望.GetChangeSpell();
                 }
-
-                if (耀星.打了不断() && 耀星.IsReady()) return 耀星.GetChangeSpell();
+                
                 if (MP >= 2400 && 火4.CanSpell()) return 火4.GetChangeSpell();
                 if (MP < 2400 && 绝望.CanSpell()) return 绝望.GetChangeSpell();
-                if (火苗) return 火3.GetChangeSpell();
                 if (悖论激活) return 悖论.GetChangeSpell();
                 if (绝望.CanSpell()) return 绝望.GetChangeSpell();
+                if (耀星.打了不断() && 耀星.IsReady()) return 耀星.GetChangeSpell();
+                if (火苗 && 冰火时间 < 3000) return 火3.GetChangeSpell();
                 if (冰3.CanSpell()) return 冰3.GetChangeSpell();
             }
 
             if (冰状态)
             {
-                if (Helper.可以打雷())
-                {
-                    return BLMSkill.雷1.GetChangeSpell();
-                }
-
-                if (QT.QTGET("骗悖论"))
-                {
-                    //骗悖论
-                    if (BLMBuff.冰层数 < 3)
-                    {
-                        if (悖论激活) return 悖论.GetChangeSpell();
-                        if (异言.IsReady()) return 异言.GetChangeSpell();
-                    }
-                }
-
                 if (冰针数 < 3 || MP != 10000 && Core.Resolve<MemApiSpell>().GetLastComboSpellId() != 冰4)
                 {
                     if (冰4.CanSpell()) return 冰4.GetChangeSpell();
@@ -222,10 +185,6 @@ public class GCD : ISlotResolver
         {
             if (火状态)
             {
-                if (Helper.可以打雷())
-                {
-                    return BLMSkill.雷1.GetChangeSpell();
-                }
 
                 if (Helper.有三连即刻buff())
                 {
@@ -244,25 +203,7 @@ public class GCD : ISlotResolver
 
             if (冰状态)
             {
-                if (Helper.可以打雷())
-                {
-                    return BLMSkill.雷1.GetChangeSpell();
-                }
-
-                if (QT.QTGET("骗悖论"))
-                {
-                    //骗悖论
-                    if (BLMSkill.魔泉.IsReady() && 冰针数 < 3)
-                    {
-                        if (悖论.IsReady()) return 悖论.GetChangeSpell();
-                        if (!星灵移位.IsReady())
-                        {
-                            if (异言.IsReady()) return 异言.GetChangeSpell();
-                            return 雷1.GetChangeSpell();
-                        }
-                    }
-                }
-
+                
                 if (通晓溢出) return 异言.GetChangeSpell();
                 if (悖论激活) return 悖论.GetChangeSpell();
                 if (Helper.有三连即刻buff())

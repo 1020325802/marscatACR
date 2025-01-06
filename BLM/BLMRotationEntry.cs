@@ -1,20 +1,15 @@
-﻿using AEAssist;
-using AEAssist.CombatRoutine;
+﻿using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
-using AEAssist.Extension;
+using AEAssist.Helper;
 using BLM.Setting;
+using BLM.Skill;
 using BLM.Ui;
-using demo1.Pictomancer.Setting;
-using Fra.PCT.Ui;
-using ImGuiNET;
+using BLM.依赖;
+using marscat.BLM.Skill.Combo;
 using Pictomancer.BLM.Skill;
-using Pictomancer.Data;
-using Pictomancer.Pictomancer;
-using Pictomancer.Pictomancer.Ability;
-using Pictomancer.Pictomancer.GCD;
 using test.JOB.依赖;
 
 namespace BLM;
@@ -36,7 +31,12 @@ public class BLMRotationEntry : IRotationEntry
     // pvp环境下 全都强制认为是通用队列
     private List<SlotResolverData> SlotResolvers = new()
     {
+        new SlotResolverData(new 雷dot(),SlotMode.Gcd),
         new SlotResolverData(new GCD(),SlotMode.Gcd),
+        new SlotResolverData(new 魔泉相关(),SlotMode.Always),
+        new SlotResolverData(new 即刻耀星(),SlotMode.OffGcd),
+        new SlotResolverData(new 详述(),SlotMode.OffGcd),
+        new SlotResolverData(new 冰转火星灵(),SlotMode.OffGcd),
         new SlotResolverData(new Ability(),SlotMode.OffGcd),
     };
     
@@ -50,7 +50,7 @@ public class BLMRotationEntry : IRotationEntry
             AcrType = AcrType.HighEnd,
             MinLevel = 90,
             MaxLevel = 100,
-            Description = "黑魔高难单体ACR，目前支持90-100级",
+            Description = "黑魔ACR，目前支持90-100级",
         }; 
         rot.AddOpener(GetOpener);
         // 添加各种事件回调
@@ -59,6 +59,8 @@ public class BLMRotationEntry : IRotationEntry
     
     IOpener? GetOpener(uint level)
     {
+        if (level == 100 && QT.GetQt("起手1"))
+            return new 木桩特化起手1();
         return null;
     }
 
@@ -97,7 +99,12 @@ public class BLMRotationEntry : IRotationEntry
         QT.AddHotkey("三连",new HotKeyResolver_NormalSpell(三连,SpellTargetType.Target,false));
         QT.AddHotkey("异言",new HotKeyResolver_NormalSpell(异言,SpellTargetType.Target,false));
         QT.AddHotkey("魔泉",new HotKeyResolver_NormalSpell(魔泉,SpellTargetType.Self,true));
-        /*QT.AddHotkey("黑魔纹", new HotKeyResolver_NormalSpell(BLMSkill.黑魔纹, SpellTargetType.Self, false));*/
+        QT.AddHotkey("爆发药", new HotKeyResolver_Potion());
+        QT.AddHotkey("极限技", new HotKeyResolver_LB());
+        QT.AddHotkey("黑魔纹", new 黑魔纹Hotkey());
+        QT.AddQt(BLMQTKey.起手1, false, "7.1木桩起手");
+        QT.AddQt(BLMQTKey.即刻耀星, true, "即刻耀星");
+        QT.AddQt(BLMQTKey.AOE, false, "打AOE");
 
     }
     // 构造函数里初始化QT

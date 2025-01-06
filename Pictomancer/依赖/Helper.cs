@@ -372,7 +372,7 @@ public static class Helper
      */
     public static Spell getAoeSpell(this uint skillId)
     {
-        var target = TargetHelper.GetMostCanTargetObjects(PCTData.SkillId.AOE短1,2);
+        var target = TargetHelper.GetMostCanTargetObjects(PCTData.SkillId.AOE短1,3);
         if (target != null && target.IsValid())
         {
             return new Spell(Core.Resolve<MemApiSpell>().CheckActionChange(skillId), target);
@@ -384,7 +384,7 @@ public static class Helper
     public static Spell getSmartSpell(this uint skillId)
     {
         
-        var target = TargetHelper.GetMostCanTargetObjects(PCTData.SkillId.AOE短1,2);
+        var target = TargetHelper.GetMostCanTargetObjects(PCTData.SkillId.AOE短1,3);
         if (target != null && target.IsValid())
         {
             return new Spell(Core.Resolve<MemApiSpell>().CheckActionChange(skillId), target);
